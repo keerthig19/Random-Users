@@ -95,7 +95,6 @@ fun UserItem(user: User?, selectedProduct: (String) -> Unit) {
         Card(
             modifier = Modifier
                 .padding(10.dp)
-                .background(color = Color.White)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
