@@ -1,5 +1,7 @@
 package com.example.randomusers.ui.screens.home
 
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.randomusers.model.User
@@ -13,10 +15,12 @@ class HomeViewModel(private val repo: UsersRepo) : ViewModel() {
     private val _usersList = MutableStateFlow<List<User?>>(listOf())
     val usersList = _usersList
 
+    var requestUsersCount = mutableStateOf(TextFieldValue())
+
     //    api call to get random users list
-    fun getUsers() {
+    fun getUsers(reqCount: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = repo.getUsers()
+            val response = repo.getUsers(reqCount)
             response.peekData()?.apply {
                 results?.let {
                     _usersList.emit(it)

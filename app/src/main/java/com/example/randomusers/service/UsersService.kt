@@ -11,9 +11,9 @@ import io.ktor.http.contentType
 
 class UsersService {
 
-    suspend fun getRandomUsers(): UserVO = client.get(BASE_URL) {
+    suspend fun getRandomUsers(reqCount: Int): UserVO = client.get(BASE_URL) {
         contentType(ContentType.Application.Json)
-        parameter("results", 5000)
+        parameter("results", reqCount)
     }.body()
 
 }

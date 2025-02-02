@@ -10,10 +10,10 @@ class UsersRepo {
 
     private val service = UsersService()
 
-    suspend fun getUsers(): Resource<UserVO> =
+    suspend fun getUsers(reqCount: Int): Resource<UserVO> =
         withContext(Dispatchers.Default) {
             try {
-                val response = service.getRandomUsers()
+                val response = service.getRandomUsers(reqCount)
                 Resource.Success(response)
             } catch (e: Exception) {
                 Resource.Error(error = e.message ?: "")

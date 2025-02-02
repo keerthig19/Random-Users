@@ -11,21 +11,26 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.randomusers.ui.screens.home.HomeScreen
 import com.example.randomusers.ui.screens.home.HomeViewModel
+import com.example.randomusers.ui.screens.home.RequestForUsers
 import com.example.randomusers.ui.screens.home.UserDetails
+import com.example.randomusers.ui.screens.navigations.RouteConfig.REQUEST_USERS_ROUTE
 import com.example.randomusers.ui.screens.navigations.RouteConfig.USERS_LIST_ROUTE
 import com.example.randomusers.ui.screens.navigations.RouteConfig.USER_DETAILS_ROUTE
 
 @Composable
-fun AppNavDetails(modifier: Modifier, viewModel: HomeViewModel, startDestination: String = USERS_LIST_ROUTE) {
+fun AppNavDetails(modifier: Modifier, viewModel: HomeViewModel, startDestination: String = REQUEST_USERS_ROUTE) {
     val navController = rememberNavController()
     val actions = remember(navController) {
         AppActions(navController)
     }
 
     NavHost(navController = navController, startDestination = startDestination) {
-        composable(USERS_LIST_ROUTE) {
-            HomeScreen(viewModel = viewModel, selectedUser = actions.selectedUser)
+        composable(REQUEST_USERS_ROUTE) {
+            RequestForUsers(viewModel = viewModel, selectedUser = actions.selectedUser)
         }
+        /*composable(USERS_LIST_ROUTE) {
+            HomeScreen(viewModel = viewModel, selectedUser = actions.selectedUser)
+        }*/
         composable("${USER_DETAILS_ROUTE}/{userEmail}",
             arguments = listOf(
                 navArgument("userEmail") {

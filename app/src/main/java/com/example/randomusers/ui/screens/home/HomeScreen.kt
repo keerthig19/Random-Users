@@ -37,13 +37,14 @@ import com.example.randomusers.ui.screens.components.SearchView
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
-    selectedUser: (String) -> Unit
+    selectedUser: (String) -> Unit,
+    text: Int
 ) {
     val isDataLoaded = remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = isDataLoaded.value) {
         if (!isDataLoaded.value) {
-            viewModel.getUsers()
+            viewModel.getUsers(text)
             isDataLoaded.value = true
         }
     }
