@@ -38,19 +38,19 @@ import com.example.randomusers.ui.screens.components.SearchView
 fun HomeScreen(
     viewModel: HomeViewModel,
     selectedUser: (String) -> Unit,
-    text: Int
+    requestCount: Int
 ) {
     val isDataLoaded = remember { mutableStateOf(false) }
-
-    LaunchedEffect(key1 = isDataLoaded.value) {
-        if (!isDataLoaded.value) {
-            viewModel.getUsers(text)
-            isDataLoaded.value = true
-        }
-    }
     val searchQuery = remember { mutableStateOf(TextFieldValue("")) }
     val usersList = viewModel.usersList.collectAsState().value.filter {
         it?.phone?.trim()?.contains(searchQuery.value.text, ignoreCase = true) == true
+    }
+
+    LaunchedEffect(key1 = requestCount) {
+        if (!isDataLoaded.value && usersList.isEmpty()) {
+            viewModel.getUsers(requestCount)
+            isDataLoaded.value = true
+        }
     }
 
     Column(modifier = Modifier.padding(top = 16.dp)) {
@@ -66,6 +66,7 @@ fun HomeScreen(
             SearchView(
                 searchQuery,
                 "Search",
+                count = requestCount
             )
         }
 

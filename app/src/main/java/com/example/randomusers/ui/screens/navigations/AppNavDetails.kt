@@ -18,7 +18,11 @@ import com.example.randomusers.ui.screens.navigations.RouteConfig.USERS_LIST_ROU
 import com.example.randomusers.ui.screens.navigations.RouteConfig.USER_DETAILS_ROUTE
 
 @Composable
-fun AppNavDetails(modifier: Modifier, viewModel: HomeViewModel, startDestination: String = REQUEST_USERS_ROUTE) {
+fun AppNavDetails(
+    modifier: Modifier,
+    viewModel: HomeViewModel,
+    startDestination: String = REQUEST_USERS_ROUTE
+) {
     val navController = rememberNavController()
     val actions = remember(navController) {
         AppActions(navController)
@@ -28,9 +32,13 @@ fun AppNavDetails(modifier: Modifier, viewModel: HomeViewModel, startDestination
         composable(REQUEST_USERS_ROUTE) {
             RequestForUsers(viewModel = viewModel, selectedUser = actions.selectedUser)
         }
-        /*composable(USERS_LIST_ROUTE) {
-            HomeScreen(viewModel = viewModel, selectedUser = actions.selectedUser)
-        }*/
+        composable(USERS_LIST_ROUTE) {
+            HomeScreen(
+                viewModel = viewModel,
+                selectedUser = actions.selectedUser,
+                requestCount = viewModel.requestUsersCount.value.text.toInt()
+            )
+        }
         composable("${USER_DETAILS_ROUTE}/{userEmail}",
             arguments = listOf(
                 navArgument("userEmail") {
@@ -56,7 +64,9 @@ class AppActions(navController: NavController) {
         navController.navigate("${USER_DETAILS_ROUTE}/$email")
     }
     val navigateUp: () -> Unit = {
-        navController.navigateUp()
+        navController.navigate(USERS_LIST_ROUTE) {
+            popUpTo(USERS_LIST_ROUTE) { inclusive = true }
+        }
     }
 
 }

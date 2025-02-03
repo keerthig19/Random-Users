@@ -1,6 +1,9 @@
 package com.example.randomusers.ui.screens.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,6 +31,7 @@ fun SearchView(
     state: MutableState<TextFieldValue>,
     hint: String,
     modifier: Modifier = Modifier,
+    count: Int
 ) {
     Box(modifier = Modifier.padding(10.dp)) {
         TextField(
@@ -36,7 +40,19 @@ fun SearchView(
                 state.value = value
             },
             modifier = modifier.width(800.dp),
-            placeholder = { Text(text = hint, color = black) },
+            placeholder = {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = hint, color = black)
+                    Text(
+                        text = "Count $count",
+                        color = black,
+                        modifier = Modifier.padding(start = 10.dp),
+                    )
+                }
+            },
             textStyle = TextStyle(color = black, fontSize = 18.sp),
             leadingIcon = {},
             trailingIcon = {
